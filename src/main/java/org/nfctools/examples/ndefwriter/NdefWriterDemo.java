@@ -32,7 +32,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * NdefWriterDemo writes an NDEF message on a Mifare classic card.
+ * NdefWriterDemo writes an NDEF message on a Mifare Classic card.
  * 
  */
 public class NdefWriterDemo implements MfCardListener {

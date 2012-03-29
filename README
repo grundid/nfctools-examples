@@ -1,0 +1,19 @@
+== Examples for the NFC Tools for Java ==
+
+This repository contains some examples for the NFCTools for Java:
+https://github.com/grundid/nfctools
+
+ClearCardDemo will try to delete all data on a Mifare Classic card and put the card back into transport mode. It will
+use some known keys to access the sectors.
+
+NdefReaderDemo reads an NDEF message from a Mifare Classic card and shows it in the log.
+
+NdefWriterDemo writes an NDEF message on a Mifare Classic card.
+
+ScanWholeCardDemo scans the whole Mifare Classic card and shows the contents in the log.
+
+LlcpService demonstrates a P2P connection with an Android phone. It will receive any Android Beam and NDEF Push
+messages and show them in the log.
+With Android 2.3 please set initiatorMode to false, with Android 4+ it works best in initiatorMode set to true.
+
+

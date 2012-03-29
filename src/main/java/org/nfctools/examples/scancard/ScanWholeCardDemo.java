@@ -28,7 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Scans the whole Mifare classic card and shows the contents in the log.
+ * ScanWholeCardDemo scans the whole Mifare Classic card and shows the contents in the log.
  * 
  */
 public class ScanWholeCardDemo implements MfCardListener {
