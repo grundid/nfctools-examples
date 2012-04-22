@@ -3,6 +3,30 @@
 This repository contains some examples for the NFCTools for Java:
 https://github.com/grundid/nfctools
 
+== Download compiled JAR file ==
+
+Your can download all examples together with the dependencies as a JAR file from the download section:
+https://github.com/grundid/nfctools-examples/downloads
+
+To launch the demos execute the following commands. To end a demo press CTRL-C at any time.
+
+LlcpService demo:
+
+java -cp nfctools-examples-1.0-SNAPSHOT-jar-with-dependencies.jar org.nfctools.examples.llcp.LlcpService
+
+NdefReaderDemo:
+java -cp nfctools-examples-1.0-SNAPSHOT-jar-with-dependencies.jar org.nfctools.examples.ndefreader.NdefReaderDemo
+
+ClearCardDemo:
+
+java -cp nfctools-examples-1.0-SNAPSHOT-jar-with-dependencies.jar org.nfctools.examples.clearcard.ClearCardDemo
+
+ScanWholeCardDemo
+
+java -cp nfctools-examples-1.0-SNAPSHOT-jar-with-dependencies.jar org.nfctools.examples.scancard.ScanWholeCardDemo
+
+== Demo descriptions ==
+
 ClearCardDemo will try to delete all data on a Mifare Classic card and put the card back into transport mode. It will
 use some known keys to access the sectors.
 
