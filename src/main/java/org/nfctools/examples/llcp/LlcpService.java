@@ -16,6 +16,7 @@
 
 package org.nfctools.examples.llcp;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.nfctools.llcp.LlcpConnectionManager;
@@ -23,6 +24,7 @@ import org.nfctools.llcp.LlcpConstants;
 import org.nfctools.llcp.LlcpOverNfcip;
 import org.nfctools.ndef.NdefListener;
 import org.nfctools.ndef.Record;
+import org.nfctools.ndef.wkt.records.UriRecord;
 import org.nfctools.ndefpush.NdefPushFinishListener;
 import org.nfctools.ndefpush.NdefPushLlcpService;
 import org.nfctools.scio.Terminal;
@@ -49,7 +51,7 @@ public class LlcpService {
 	private NdefListener ndefListener;
 	private NdefPushLlcpService ndefPushLlcpService;
 	private Terminal terminal;
-	private boolean initiatorMode = true;
+	private boolean initiatorMode = false;
 
 	public LlcpService(NdefListener ndefListener, TerminalStatusListener statusListener) {
 		this.ndefListener = ndefListener;
@@ -82,6 +84,55 @@ public class LlcpService {
 
 		try {
 			terminal.setNfcipConnectionListener(llcpOverNfcip);
+			if (initiatorMode)
+				terminal.initInitiatorDep();
+			else
+				terminal.initTargetDep();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void run2() {
+
+		ndefPushLlcpService = new NdefPushLlcpService(ndefListener);
+
+		String content = "http://www.google.de";
+		final Collection<Record> records = new ArrayList<Record>();
+		records.add(new UriRecord(content));
+		addMessages(records, new NdefPushFinishListener() {
+
+			@Override
+			public void onNdefPushFinish() {
+				System.out.println("sent");
+				new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						try {
+							Thread.sleep(1000);
+							System.out.println("\n\n\nAdding new records...");
+							addMessages(records, null);
+						}
+						catch (InterruptedException e) {
+
+						}
+					}
+				}).start();
+			}
+
+			@Override
+			public void onNdefPushFailed() {
+			}
+		});
+
+		LlcpOverNfcip llcpOverNfcip = new LlcpOverNfcip();
+		LlcpConnectionManager connectionManager = llcpOverNfcip.getConnectionManager();
+		connectionManager.registerWellKnownServiceAccessPoint(LlcpConstants.COM_ANDROID_NPP, ndefPushLlcpService);
+
+		try {
+			terminal.setNfcipConnectionListener(new P2PListener());
 			if (initiatorMode)
 				terminal.initInitiatorDep();
 			else

@@ -17,58 +17,24 @@ package org.nfctools.examples.scancard;
 
 import java.io.IOException;
 
-import org.nfctools.examples.TerminalUtils;
-import org.nfctools.io.NfcDevice;
-import org.nfctools.mf.MfCardListener;
-import org.nfctools.mf.MfReaderWriter;
-import org.nfctools.mf.card.MfCard;
-import org.nfctools.mf.tools.CardScanner;
-import org.nfctools.spi.acs.Acr122ReaderWriter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.nfctools.examples.AbstractDemo;
+import org.nfctools.mf.tools.MfClassicCardScanner;
 
 /**
  * ScanWholeCardDemo scans the whole Mifare Classic card and shows the contents in the log.
  * 
  */
-public class ScanWholeCardDemo implements MfCardListener {
+public class ScanWholeCardDemo extends AbstractDemo {
 
-	private static Logger log = LoggerFactory.getLogger(ScanWholeCardDemo.class.getName());
-
-	private NfcDevice nfcReaderWriter = TerminalUtils.getAvailableTerminal();
-	private MfReaderWriter readerWriter = new Acr122ReaderWriter(nfcReaderWriter);
-
-	private CardScanner cardScanner = new CardScanner();
-
-	@Override
-	public void cardDetected(MfCard card, MfReaderWriter readerWriter) throws IOException {
-		log.info("Card found. " + card);
-		long time = System.currentTimeMillis();
-		cardScanner.doWithCard(card, readerWriter);
-		log.info("Done in " + (System.currentTimeMillis() - time) + "ms");
-
-	}
-
-	public void run() {
-
-		try {
-			nfcReaderWriter.open();
-			log.info("Listening...");
-			readerWriter.setCardListener(this);
-			log.info("Done");
-			System.in.read();
-			nfcReaderWriter.close();
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
+	private void runDemo() throws IOException {
+		launchDemo(new MfClassicCardScanner());
 	}
 
 	public static void main(String[] args) {
 
 		try {
 			ScanWholeCardDemo demo = new ScanWholeCardDemo();
-			demo.run();
+			demo.runDemo();
 		}
 		catch (Exception e) {
 			e.printStackTrace();

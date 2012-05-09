@@ -1,17 +1,10 @@
 package org.nfctools.examples.ndef;
 
-import java.util.Collection;
-
-import org.nfctools.ndef.NdefListener;
 import org.nfctools.ndef.NdefOperations;
-import org.nfctools.ndef.Record;
+import org.nfctools.ndef.NdefOperationsListener;
 import org.nfctools.ndef.wkt.records.UriRecord;
 
-public class NdefWriter implements NdefListener {
-
-	@Override
-	public void onNdefMessages(Collection<Record> records) {
-	}
+public class NdefWriter implements NdefOperationsListener {
 
 	@Override
 	public void onNdefOperations(NdefOperations ndefOperations) {

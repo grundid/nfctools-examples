@@ -12,7 +12,7 @@
 	
 	<!-- Application Loggers -->
 	<logger name="org.nfctools">
-		<level value="debug" />
+		<level value="info" />
 	</logger>
 
 	<logger name="org.nfctools.llcp.LlcpConnectionListener">
@@ -23,7 +23,11 @@
 		<level value="debug" />
 	</logger>
 	
-	<logger name="de.emaitie.nfc">
+	<logger name="org.nfctools.spi.acs.AcsTag">
+		<level value="debug" />
+	</logger>
+	
+	<logger name="org.nfctools.spi.acs">
 		<level value="debug" />
 	</logger>
 	
@@ -35,8 +39,8 @@
 		<level value="warn" />
 	</logger>
 	
-	<logger name="org.nfctools.spi.arygon">
-		<level value="info" />
+	<logger name="org.nfctools.ndefpush">
+		<level value="debug" />
 	</logger>
 	
 	<logger name="org.nfctools.spi.tama.TamaReader">
