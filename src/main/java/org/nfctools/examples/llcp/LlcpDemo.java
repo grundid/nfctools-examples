@@ -29,8 +29,6 @@ import org.nfctools.ndefpush.NdefPushFinishListener;
 import org.nfctools.ndefpush.NdefPushLlcpService;
 import org.nfctools.scio.TerminalMode;
 import org.nfctools.utils.LoggingNdefListener;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * LlcpService demonstrates a P2P connection with an Android phone. It will receive any Android Beam and NDEF Push
@@ -41,14 +39,13 @@ import org.slf4j.LoggerFactory;
  */
 public class LlcpDemo {
 
-	private Logger log = LoggerFactory.getLogger(getClass());
-
 	private NdefPushLlcpService ndefPushLlcpService;
-	private boolean initiatorMode = true;
+	private boolean initiatorMode;
 
 	private LlcpOverNfcip llcpOverNfcip;
 
-	public LlcpDemo() {
+	public LlcpDemo(boolean initiatorMode) {
+		this.initiatorMode = initiatorMode;
 		ndefPushLlcpService = new NdefPushLlcpService(new LoggingNdefListener());
 		llcpOverNfcip = new LlcpOverNfcip();
 		LlcpConnectionManager connectionManager = llcpOverNfcip.getConnectionManager();
@@ -60,17 +57,19 @@ public class LlcpDemo {
 	}
 
 	public void runDemo() throws IOException {
-		NfcAdapter nfcAdapter = new NfcAdapter(TerminalUtils.getAvailableTerminal(), TerminalMode.TARGET);
+		TerminalMode terminalMode = initiatorMode ? TerminalMode.INITIATOR : TerminalMode.TARGET;
+		NfcAdapter nfcAdapter = new NfcAdapter(TerminalUtils.getAvailableTerminal(), terminalMode);
 		nfcAdapter.setNfcipConnectionListener(llcpOverNfcip);
 		nfcAdapter.startListening();
-		System.out.println("Waiting for tags, press ENTER to exit");
+		System.out.println("Mode: " + terminalMode);
+		System.out.println("Waiting for P2P, press ENTER to exit");
 		System.in.read();
-
 	}
 
 	public static void main(String[] args) {
 		try {
-			LlcpDemo service = new LlcpDemo();
+			boolean targetMode = args.length == 1 && args[0].equals("-target");
+			LlcpDemo service = new LlcpDemo(!targetMode);
 			service.runDemo();
 		}
 		catch (IOException e) {
