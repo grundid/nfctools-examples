@@ -30,6 +30,9 @@
 	<logger name="org.nfctools.spi.acs">
 		<level value="debug" />
 	</logger>
+	<logger name="org.nfctools.snep">
+		<level value="debug" />
+	</logger>
 	
 	<logger name="org.nfctools.io">
 		<level value="info" />

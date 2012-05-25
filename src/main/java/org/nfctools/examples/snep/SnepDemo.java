@@ -29,10 +29,10 @@ import org.nfctools.snep.SnepServer;
 import org.nfctools.utils.LoggingNdefListener;
 
 /**
- * LlcpService demonstrates a P2P connection with an Android phone. It will receive any Android Beam messages and show
- * them in the log.
+ * SnepDemo demonstrates a P2P connection with an Android phone. It will receive any Android Beam messages and show them
+ * in the log.
  * <p>
- * With Android 2.3 please set initiatorMode to false, with Android 4+ it works best in initiatorMode set to true.
+ * You can pass a -url parameter followed by your url to send an Andoird Beam message from this demo.
  * 
  */
 public class SnepDemo {
@@ -41,16 +41,21 @@ public class SnepDemo {
 
 	private LlcpOverNfcip llcpOverNfcip;
 
+	private SnepClient snepClient;
+
 	public SnepDemo(boolean initiatorMode) {
 		this.initiatorMode = initiatorMode;
 		LoggingNdefListener loggingNdefListener = new LoggingNdefListener();
 		SnepServer snepServer = new SnepServer(loggingNdefListener);
-		SnepClient snepClient = new SnepClient();
-		snepClient.setSnepAgentListener(new SnepAgentListenterImpl());
+		snepClient = new SnepClient();
 		llcpOverNfcip = new LlcpOverNfcip();
 		LlcpConnectionManager connectionManager = llcpOverNfcip.getConnectionManager();
 		connectionManager.registerServiceAccessPoint(SnepConstants.SNEP_SERVICE_ADDRESS, snepServer);
 		connectionManager.registerServiceAccessPoint(snepClient);
+	}
+
+	public void addUrlToSend(String url) {
+		snepClient.setSnepAgentListener(new SnepAgentListenterImpl(url));
 	}
 
 	public void runDemo() throws IOException {
@@ -63,11 +68,22 @@ public class SnepDemo {
 		System.in.read();
 	}
 
+	private static String findUrl(String[] args) {
+		for (int x = 0; x < args.length; x++) {
+			if ("-url".equals(args[x]))
+				return args[x + 1];
+		}
+		return null;
+	}
+
 	public static void main(String[] args) {
 		try {
 			boolean targetMode = args.length == 1 && args[0].equals("-target");
-			SnepDemo service = new SnepDemo(!targetMode);
-			service.runDemo();
+			SnepDemo demo = new SnepDemo(!targetMode);
+			String url = findUrl(args);
+			if (url != null)
+				demo.addUrlToSend(url);
+			demo.runDemo();
 		}
 		catch (IOException e) {
 			e.printStackTrace();
