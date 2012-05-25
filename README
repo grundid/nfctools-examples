@@ -10,7 +10,15 @@ https://github.com/grundid/nfctools-examples/downloads
 
 To launch the demos execute the following commands. To end a demo press CTRL-C at any time.
 
-LlcpService demo:
+LlcpDemo demo:
+
+java -cp nfctools-examples-1.0-SNAPSHOT-jar-with-dependencies.jar org.nfctools.examples.llcp.LlcpDemo
+
+SnepDemo demo:
+
+java -cp nfctools-examples-1.0-SNAPSHOT-jar-with-dependencies.jar org.nfctools.examples.snep.SnepDemo -url <url-to-send>
+
+LlcpService demo (old):
 
 java -cp nfctools-examples-1.0-SNAPSHOT-jar-with-dependencies.jar org.nfctools.examples.llcp.LlcpService
 
