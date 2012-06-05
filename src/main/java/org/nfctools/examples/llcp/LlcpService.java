@@ -30,6 +30,9 @@ import org.nfctools.ndefpush.NdefPushLlcpService;
 import org.nfctools.scio.Terminal;
 import org.nfctools.scio.TerminalHandler;
 import org.nfctools.scio.TerminalStatusListener;
+import org.nfctools.snep.SnepClient;
+import org.nfctools.snep.SnepConstants;
+import org.nfctools.snep.SnepServer;
 import org.nfctools.spi.acs.AcsTerminal;
 import org.nfctools.spi.scm.SclTerminal;
 import org.nfctools.utils.LoggingNdefListener;
@@ -77,10 +80,15 @@ public class LlcpService {
 
 	public void run() {
 
+		SnepServer snepServer = new SnepServer(new LoggingNdefListener());
+		SnepClient snepClient = new SnepClient();
+
 		ndefPushLlcpService = new NdefPushLlcpService(ndefListener);
 		LlcpOverNfcip llcpOverNfcip = new LlcpOverNfcip();
 		LlcpConnectionManager connectionManager = llcpOverNfcip.getConnectionManager();
 		connectionManager.registerWellKnownServiceAccessPoint(LlcpConstants.COM_ANDROID_NPP, ndefPushLlcpService);
+		connectionManager.registerServiceAccessPoint(SnepConstants.SNEP_SERVICE_ADDRESS, snepServer);
+		connectionManager.registerServiceAccessPoint(snepClient);
 
 		try {
 			terminal.setNfcipConnectionListener(llcpOverNfcip);
