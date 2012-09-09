@@ -20,7 +20,7 @@
 	</logger>
 	
 	<logger name="org.nfctools.spi.tama.nfcip.TargetNfcIpConnection">
-		<level value="debug" />
+		<level value="info" />
 	</logger>
 	
 	<logger name="org.nfctools.spi.acs.AcsTag">
