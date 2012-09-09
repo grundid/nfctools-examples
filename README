@@ -10,28 +10,32 @@ https://github.com/grundid/nfctools-examples/downloads
 
 To launch the demos execute the following commands. To end a demo press CTRL-C at any time.
 
-LlcpDemo demo:
-
-java -cp nfctools-examples-1.0-SNAPSHOT-jar-with-dependencies.jar org.nfctools.examples.llcp.LlcpDemo
-
 SnepDemo demo:
 
-java -cp nfctools-examples-1.0-SNAPSHOT-jar-with-dependencies.jar org.nfctools.examples.snep.SnepDemo -url <url-to-send>
+java -cp nfctools-examples.jar org.nfctools.examples.snep.SnepDemo -url <url-to-send> -target -terminal <terminalname>
+
+-target : activates target mode, place use it with Android 4.1
+-terminal : pass a string as a terminal name if you have several NFC devices connected
+
+LlcpDemo demo:
+
+java -cp nfctools-examples.jar org.nfctools.examples.llcp.LlcpDemo
+
 
 LlcpService demo (old):
 
-java -cp nfctools-examples-1.0-SNAPSHOT-jar-with-dependencies.jar org.nfctools.examples.llcp.LlcpService
+java -cp nfctools-examples.jar org.nfctools.examples.llcp.LlcpService
 
 NdefReaderDemo:
-java -cp nfctools-examples-1.0-SNAPSHOT-jar-with-dependencies.jar org.nfctools.examples.ndefreader.NdefReaderDemo
+java -cp nfctools-examples.jar org.nfctools.examples.ndefreader.NdefReaderDemo
 
 ClearCardDemo:
 
-java -cp nfctools-examples-1.0-SNAPSHOT-jar-with-dependencies.jar org.nfctools.examples.clearcard.ClearCardDemo
+java -cp nfctools-examples.jar org.nfctools.examples.clearcard.ClearCardDemo
 
 ScanWholeCardDemo
 
-java -cp nfctools-examples-1.0-SNAPSHOT-jar-with-dependencies.jar org.nfctools.examples.scancard.ScanWholeCardDemo
+java -cp nfctools-examples.jar org.nfctools.examples.scancard.ScanWholeCardDemo
 
 == Demo descriptions ==
 
@@ -46,6 +50,6 @@ ScanWholeCardDemo scans the whole Mifare Classic card and shows the contents in 
 
 LlcpService demonstrates a P2P connection with an Android phone. It will receive any Android Beam and NDEF Push
 messages and show them in the log.
-With Android 2.3 please set initiatorMode to false, with Android 4+ it works best in initiatorMode set to true.
+With Android 2.3 and 4.1 please set initiatorMode to false, with Android 4.0 it works best in initiatorMode set to true.
 
 
