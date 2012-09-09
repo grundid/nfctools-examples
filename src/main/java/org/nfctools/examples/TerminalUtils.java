@@ -23,10 +23,14 @@ import org.nfctools.spi.scm.SclTerminal;
 public class TerminalUtils {
 
 	public static Terminal getAvailableTerminal() {
+		return getAvailableTerminal(null);
+	}
+
+	public static Terminal getAvailableTerminal(String preferredTerminalName) {
 		TerminalHandler terminalHandler = new TerminalHandler();
 		terminalHandler.addTerminal(new AcsTerminal());
 		terminalHandler.addTerminal(new SclTerminal());
 
-		return terminalHandler.getAvailableTerminal();
+		return terminalHandler.getAvailableTerminal(preferredTerminalName);
 	}
 }
