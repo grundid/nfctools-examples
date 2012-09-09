@@ -14,8 +14,8 @@ SnepDemo demo:
 
 java -cp nfctools-examples.jar org.nfctools.examples.snep.SnepDemo -url <url-to-send> -target -terminal <terminalname>
 
--target : activates target mode, place use it with Android 4.1
--terminal : pass a string as a terminal name if you have several NFC devices connected
+-target : activates target mode, please use it with Android 4.1
+-terminal : pass a string as terminal name if you have several NFC devices connected
 
 LlcpDemo demo:
 
