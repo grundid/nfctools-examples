@@ -22,6 +22,7 @@ import org.nfctools.NfcAdapter;
 import org.nfctools.examples.TerminalUtils;
 import org.nfctools.llcp.LlcpConnectionManager;
 import org.nfctools.llcp.LlcpOverNfcip;
+import org.nfctools.scio.Terminal;
 import org.nfctools.scio.TerminalMode;
 import org.nfctools.snep.SnepClient;
 import org.nfctools.snep.SnepConstants;
@@ -37,14 +38,11 @@ import org.nfctools.utils.LoggingNdefListener;
  */
 public class SnepDemo {
 
-	private boolean initiatorMode;
-
 	private LlcpOverNfcip llcpOverNfcip;
 
 	private SnepClient snepClient;
 
-	public SnepDemo(boolean initiatorMode) {
-		this.initiatorMode = initiatorMode;
+	public SnepDemo() {
 		LoggingNdefListener loggingNdefListener = new LoggingNdefListener();
 		SnepServer snepServer = new SnepServer(loggingNdefListener);
 		snepClient = new SnepClient();
@@ -58,9 +56,11 @@ public class SnepDemo {
 		snepClient.setSnepAgentListener(new SnepAgentListenterImpl(url));
 	}
 
-	public void runDemo() throws IOException {
+	public void runDemo(boolean initiatorMode, String preferredTerminalName) throws IOException {
 		TerminalMode terminalMode = initiatorMode ? TerminalMode.INITIATOR : TerminalMode.TARGET;
-		NfcAdapter nfcAdapter = new NfcAdapter(TerminalUtils.getAvailableTerminal(), terminalMode);
+		Terminal terminal = TerminalUtils.getAvailableTerminal(preferredTerminalName);
+		System.out.println("Using: " + terminal.getTerminalName());
+		NfcAdapter nfcAdapter = new NfcAdapter(terminal, terminalMode);
 		nfcAdapter.setNfcipConnectionListener(llcpOverNfcip);
 		nfcAdapter.startListening();
 		System.out.println("Mode: " + terminalMode);
@@ -68,22 +68,32 @@ public class SnepDemo {
 		System.in.read();
 	}
 
-	private static String findUrl(String[] args) {
+	private static String findParam(String name, String[] args) {
 		for (int x = 0; x < args.length; x++) {
-			if ("-url".equals(args[x]))
+			if (("-" + name).equals(args[x]))
 				return args[x + 1];
 		}
 		return null;
 	}
 
+	private static boolean isTargetMode(String[] args) {
+		for (int x = 0; x < args.length; x++) {
+			if (args[x].equals("-target"))
+				return true;
+		}
+		return false;
+
+	}
+
 	public static void main(String[] args) {
 		try {
-			boolean targetMode = args.length == 1 && args[0].equals("-target");
-			SnepDemo demo = new SnepDemo(!targetMode);
-			String url = findUrl(args);
+			boolean targetMode = isTargetMode(args);
+			String preferredTerminalName = findParam("terminal", args);
+			SnepDemo demo = new SnepDemo();
+			String url = findParam("url", args);
 			if (url != null)
 				demo.addUrlToSend(url);
-			demo.runDemo();
+			demo.runDemo(!targetMode, preferredTerminalName);
 		}
 		catch (IOException e) {
 			e.printStackTrace();

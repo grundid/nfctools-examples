@@ -24,7 +24,8 @@ public class SnepAgentListenterImpl implements SnepAgentListener, PutResponseLis
 	public void onSnepConnection(SnepAgent snepAgent) {
 		if (!records.isEmpty()) {
 			log.info("SNEP connection available, sending message...");
-			snepAgent.doPut(records, this);
+			snepAgent.doPut(new ArrayList<Record>(records), this);
+			records.clear();
 		}
 	}
 
