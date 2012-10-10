@@ -15,6 +15,7 @@ public abstract class AbstractDemo {
 			nfcAdapter.registerTagListener(tagListener);
 
 		nfcAdapter.registerUnknownTagListerner(new LoggingUnknownTagListener());
+		nfcAdapter.startListening();
 		System.out.println("Waiting for tags, press ENTER to exit");
 		System.in.read();
 	}
