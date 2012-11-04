@@ -8,7 +8,7 @@
 	<version>1.0-SNAPSHOT</version>
 	<artifactId>nfctools-examples</artifactId>
 	<packaging>jar</packaging>
-	<url>http://code.google.com/p/nfctools/</url>
+	<url>https://github.com/grundid/nfctools-examples</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java-version>1.6</java-version>
@@ -19,12 +19,12 @@
 		<dependency>
 			<groupId>org.nfctools</groupId>
 			<artifactId>nfctools-core</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>1.0-M6</version>
 		</dependency>
 		<dependency>
 			<groupId>org.nfctools</groupId>
 			<artifactId>nfctools-p2p</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>1.0-M6</version>
 		</dependency>
 
 		<!-- Logging -->
