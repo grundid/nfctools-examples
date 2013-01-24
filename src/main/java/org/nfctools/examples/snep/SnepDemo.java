@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.nfctools.examples.snep;
 
 import java.io.IOException;
@@ -21,6 +20,7 @@ import java.io.IOException;
 import org.nfctools.NfcAdapter;
 import org.nfctools.examples.TerminalUtils;
 import org.nfctools.llcp.LlcpConnectionManager;
+import org.nfctools.llcp.LlcpConnectionManagerFactory;
 import org.nfctools.llcp.LlcpOverNfcip;
 import org.nfctools.scio.Terminal;
 import org.nfctools.scio.TerminalMode;
@@ -39,17 +39,20 @@ import org.nfctools.utils.LoggingNdefListener;
 public class SnepDemo {
 
 	private LlcpOverNfcip llcpOverNfcip;
-
 	private SnepClient snepClient;
 
 	public SnepDemo() {
 		LoggingNdefListener loggingNdefListener = new LoggingNdefListener();
-		SnepServer snepServer = new SnepServer(loggingNdefListener);
+		final SnepServer snepServer = new SnepServer(loggingNdefListener);
 		snepClient = new SnepClient();
-		llcpOverNfcip = new LlcpOverNfcip();
-		LlcpConnectionManager connectionManager = llcpOverNfcip.getConnectionManager();
-		connectionManager.registerServiceAccessPoint(SnepConstants.SNEP_SERVICE_ADDRESS, snepServer);
-		connectionManager.registerServiceAccessPoint(snepClient);
+		llcpOverNfcip = new LlcpOverNfcip(new LlcpConnectionManagerFactory() {
+
+			@Override
+			protected void configureConnectionManager(LlcpConnectionManager connectionManager) {
+				connectionManager.registerServiceAccessPoint(SnepConstants.SNEP_SERVICE_ADDRESS, snepServer);
+				connectionManager.registerServiceAccessPoint(snepClient);
+			}
+		});
 	}
 
 	public void addUrlToSend(String url) {
@@ -82,7 +85,6 @@ public class SnepDemo {
 				return true;
 		}
 		return false;
-
 	}
 
 	public static void main(String[] args) {

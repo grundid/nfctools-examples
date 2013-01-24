@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.nfctools.examples.llcp;
 
 import java.io.IOException;
@@ -22,6 +21,7 @@ import java.util.Collection;
 import org.nfctools.NfcAdapter;
 import org.nfctools.examples.TerminalUtils;
 import org.nfctools.llcp.LlcpConnectionManager;
+import org.nfctools.llcp.LlcpConnectionManagerFactory;
 import org.nfctools.llcp.LlcpConstants;
 import org.nfctools.llcp.LlcpOverNfcip;
 import org.nfctools.ndef.Record;
@@ -41,15 +41,19 @@ public class LlcpDemo {
 
 	private NdefPushLlcpService ndefPushLlcpService;
 	private boolean initiatorMode;
-
 	private LlcpOverNfcip llcpOverNfcip;
 
 	public LlcpDemo(boolean initiatorMode) {
 		this.initiatorMode = initiatorMode;
 		ndefPushLlcpService = new NdefPushLlcpService(new LoggingNdefListener());
-		llcpOverNfcip = new LlcpOverNfcip();
-		LlcpConnectionManager connectionManager = llcpOverNfcip.getConnectionManager();
-		connectionManager.registerWellKnownServiceAccessPoint(LlcpConstants.COM_ANDROID_NPP, ndefPushLlcpService);
+		llcpOverNfcip = new LlcpOverNfcip(new LlcpConnectionManagerFactory() {
+
+			@Override
+			protected void configureConnectionManager(LlcpConnectionManager connectionManager) {
+				connectionManager.registerWellKnownServiceAccessPoint(LlcpConstants.COM_ANDROID_NPP,
+						ndefPushLlcpService);
+			}
+		});
 	}
 
 	public void addMessages(Collection<Record> ndefRecords, NdefPushFinishListener finishListener) {

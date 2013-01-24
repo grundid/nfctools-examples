@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.nfctools.examples.llcp;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 import org.nfctools.llcp.LlcpConnectionManager;
+import org.nfctools.llcp.LlcpConnectionManagerFactory;
 import org.nfctools.llcp.LlcpConstants;
 import org.nfctools.llcp.LlcpOverNfcip;
 import org.nfctools.ndef.NdefListener;
@@ -50,7 +50,6 @@ import org.slf4j.LoggerFactory;
 public class LlcpService {
 
 	private Logger log = LoggerFactory.getLogger(getClass());
-
 	private NdefListener ndefListener;
 	private NdefPushLlcpService ndefPushLlcpService;
 	private Terminal terminal;
@@ -58,16 +57,13 @@ public class LlcpService {
 
 	public LlcpService(NdefListener ndefListener, TerminalStatusListener statusListener) {
 		this.ndefListener = ndefListener;
-
 		TerminalHandler terminalHandler = new TerminalHandler();
 		terminalHandler.addTerminal(new AcsTerminal());
 		terminalHandler.addTerminal(new SclTerminal());
-
 		terminal = terminalHandler.getAvailableTerminal();
 		terminal.setStatusListener(statusListener);
 		terminal.setNdefListener(ndefListener);
 		log.info("Connected to " + terminal.getTerminalName());
-
 	}
 
 	public void addMessages(Collection<Record> ndefRecords, NdefPushFinishListener finishListener) {
@@ -79,17 +75,19 @@ public class LlcpService {
 	}
 
 	public void run() {
-
-		SnepServer snepServer = new SnepServer(new LoggingNdefListener());
-		SnepClient snepClient = new SnepClient();
-
+		final SnepServer snepServer = new SnepServer(new LoggingNdefListener());
+		final SnepClient snepClient = new SnepClient();
 		ndefPushLlcpService = new NdefPushLlcpService(ndefListener);
-		LlcpOverNfcip llcpOverNfcip = new LlcpOverNfcip();
-		LlcpConnectionManager connectionManager = llcpOverNfcip.getConnectionManager();
-		connectionManager.registerWellKnownServiceAccessPoint(LlcpConstants.COM_ANDROID_NPP, ndefPushLlcpService);
-		connectionManager.registerServiceAccessPoint(SnepConstants.SNEP_SERVICE_ADDRESS, snepServer);
-		connectionManager.registerServiceAccessPoint(snepClient);
+		LlcpOverNfcip llcpOverNfcip = new LlcpOverNfcip(new LlcpConnectionManagerFactory() {
 
+			@Override
+			protected void configureConnectionManager(LlcpConnectionManager connectionManager) {
+				connectionManager.registerWellKnownServiceAccessPoint(LlcpConstants.COM_ANDROID_NPP,
+						ndefPushLlcpService);
+				connectionManager.registerServiceAccessPoint(SnepConstants.SNEP_SERVICE_ADDRESS, snepServer);
+				connectionManager.registerServiceAccessPoint(snepClient);
+			}
+		});
 		try {
 			terminal.setNfcipConnectionListener(llcpOverNfcip);
 			if (initiatorMode)
@@ -103,9 +101,7 @@ public class LlcpService {
 	}
 
 	public void run2() {
-
 		ndefPushLlcpService = new NdefPushLlcpService(ndefListener);
-
 		String content = "http://www.google.de";
 		final Collection<Record> records = new ArrayList<Record>();
 		records.add(new UriRecord(content));
@@ -124,7 +120,6 @@ public class LlcpService {
 							addMessages(records, null);
 						}
 						catch (InterruptedException e) {
-
 						}
 					}
 				}).start();
@@ -134,11 +129,14 @@ public class LlcpService {
 			public void onNdefPushFailed() {
 			}
 		});
+		LlcpOverNfcip llcpOverNfcip = new LlcpOverNfcip(new LlcpConnectionManagerFactory() {
 
-		LlcpOverNfcip llcpOverNfcip = new LlcpOverNfcip();
-		LlcpConnectionManager connectionManager = llcpOverNfcip.getConnectionManager();
-		connectionManager.registerWellKnownServiceAccessPoint(LlcpConstants.COM_ANDROID_NPP, ndefPushLlcpService);
-
+			@Override
+			protected void configureConnectionManager(LlcpConnectionManager connectionManager) {
+				connectionManager.registerWellKnownServiceAccessPoint(LlcpConstants.COM_ANDROID_NPP,
+						ndefPushLlcpService);
+			}
+		});
 		try {
 			terminal.setNfcipConnectionListener(new P2PListener());
 			if (initiatorMode)
@@ -155,5 +153,4 @@ public class LlcpService {
 		LlcpService service = new LlcpService(new LoggingNdefListener(), new LoggingStatusListener());
 		service.run();
 	}
-
 }
