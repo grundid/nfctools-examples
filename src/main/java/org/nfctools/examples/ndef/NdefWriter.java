@@ -8,6 +8,7 @@ public class NdefWriter implements NdefOperationsListener {
 
 	@Override
 	public void onNdefOperations(NdefOperations ndefOperations) {
+		System.out.println("Formated: " + ndefOperations.isFormatted() + " Writable: " + ndefOperations.isWritable());
 		if (ndefOperations.isWritable()) {
 			System.out.println("Writing NDEF data...");
 			UriRecord record = new UriRecord("http://www.grundid.de");
@@ -20,5 +21,4 @@ public class NdefWriter implements NdefOperationsListener {
 		else
 			System.out.println("Tag not writable");
 	}
-
 }
