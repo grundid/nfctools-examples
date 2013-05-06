@@ -138,7 +138,7 @@ public class LlcpService {
 			}
 		});
 		try {
-			terminal.setNfcipConnectionListener(new P2PListener());
+			terminal.setNfcipConnectionListener(llcpOverNfcip);
 			if (initiatorMode)
 				terminal.initInitiatorDep();
 			else
@@ -151,6 +151,6 @@ public class LlcpService {
 
 	public static void main(String[] args) {
 		LlcpService service = new LlcpService(new LoggingNdefListener(), new LoggingStatusListener());
-		service.run();
+		service.run2();
 	}
 }
