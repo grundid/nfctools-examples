@@ -5,8 +5,8 @@ https://github.com/grundid/nfctools
 
 == Download compiled JAR file ==
 
-Your can download all examples together with the dependencies as a JAR file from the download section:
-https://github.com/grundid/nfctools-examples/downloads
+Your can download all examples together with the dependencies as a JAR file from this URL:
+http://www.grundid.de/nfc/nfctools-examples.jar
 
 To launch the demos execute the following commands. To end a demo press CTRL-C at any time.
 
