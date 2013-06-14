@@ -24,7 +24,7 @@
 	</logger>
 	
 	<logger name="org.nfctools.spi.acs.AcsTag">
-		<level value="debug" />
+		<level value="info" />
 	</logger>
 	
 	<logger name="org.nfctools.spi.acs">

@@ -13,18 +13,19 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java-version>1.6</java-version>
 		<org.slf4j-version>1.5.10</org.slf4j-version>
+		<org.nfctools-version>1.0-M7</org.nfctools-version>
 	</properties>
 	<dependencies>
 
 		<dependency>
 			<groupId>org.nfctools</groupId>
 			<artifactId>nfctools-core</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>${org.nfctools-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.nfctools</groupId>
 			<artifactId>nfctools-p2p</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>${org.nfctools-version}</version>
 		</dependency>
 
 		<!-- Logging -->

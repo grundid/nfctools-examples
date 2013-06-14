@@ -1,1 +1,1 @@
-java -cp target/nfctools-examples.jar org.nfctools.examples.snep.SnepDemo -target
+java -cp .;target/nfctools-examples.jar org.nfctools.examples.snep.SnepDemo -target
