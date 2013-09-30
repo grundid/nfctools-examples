@@ -13,7 +13,6 @@ public class IsoDepDemo {
 		NfcAdapter nfcAdapter = new NfcAdapter(TerminalUtils.getAvailableTerminal(), terminalMode);
 		nfcAdapter.setNfcipConnectionListener(new IsoDepConnectionListener());
 		nfcAdapter.startListening();
-
 		System.out.println("Running...");
 		System.in.read();
 	}
@@ -27,5 +26,4 @@ public class IsoDepDemo {
 			e.printStackTrace();
 		}
 	}
-
 }
