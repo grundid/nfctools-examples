@@ -6,9 +6,13 @@ https://github.com/grundid/nfctools
 == Download compiled JAR file ==
 
 Your can download all examples together with the dependencies as a JAR file from this URL:
-http://www.grundid.de/nfc/nfctools-examples.jar
+https://github.com/grundid/nfctools-examples/releases
 
 To launch the demos execute the following commands. To end a demo press CTRL-C at any time.
+
+Host-based Card Emulation demo:
+
+java -cp nfctools-examples.jar org.nfctools.examples.hce.HceDemo
 
 SnepDemo demo:
 
