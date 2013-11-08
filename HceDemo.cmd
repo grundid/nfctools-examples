@@ -1,0 +1,1 @@
+java -cp .;target/nfctools-examples.jar org.nfctools.examples.hce.HceDemo
