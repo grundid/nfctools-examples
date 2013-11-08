@@ -13,7 +13,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java-version>1.6</java-version>
 		<org.slf4j-version>1.5.10</org.slf4j-version>
-		<org.nfctools-version>1.0.M8</org.nfctools-version>
+		<org.nfctools-version>1.0-SNAPSHOT</org.nfctools-version>
 	</properties>
 	<dependencies>
 
